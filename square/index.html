@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <title> ビリアード </title>
     <link rel="stylesheet" type="text/css" href="default.css" />
+    <link rel="stylesheet" type="text/css" href="canvas.css" />
     <script type="text/javascript" src="input.js"></script>
     <script type="text/javascript" src="canvas.js"></script>
     <!-- <link rel="stylesheet" type="text/css" href="calc.css" /> -->
@@ -12,10 +13,28 @@
 
   <body>
     <div id="contents">
-      <canvas id="canvas" width="440" height="440">
-        このブラウザではコンテンツを表示できません。
-        別のブラウザで読み込みなおしてください。
-      </canvas>
+      <div class="two-column">
+        <canvas id="canvasLeft" width="300" height="300">
+          このブラウザではコンテンツを表示できません。
+          別のブラウザで読み込みなおしてください。
+        </canvas>
+        <canvas id="canvasRight" width="300" height="300"></canvas>
+      </div>
+
+      <ul>
+        <li>
+          <p> 出発位置 (0 < x < 1) </p>
+          <input id="position" type="number"></input>
+        </li>
+        <li>
+          <p> 反射回数 </p>
+          <input id="reflection" type="number"></input>
+        </li>
+        <li>
+          <p> 出発角度 (0 < θ < 180) </p>
+          <input id="angle" type="number"></input>
+        </li>
+      </ul>
     </div>
   </body>
 </html>

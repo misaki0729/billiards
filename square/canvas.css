@@ -1,0 +1,36 @@
+ul {
+  list-style: none;
+}
+
+ul li {
+  float:left;
+  display:box;
+  display:inline-block;
+  margin-top:0px;
+  padding:0;
+  line-height:20px;
+  margin-right: 80px;
+}
+
+canvas {
+  border: solid 1px;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance:textfield;
+}
+
+#contents {
+  width: 800px;
+  margin: auto;
+}
+
+#canvasLeft {
+  margin-right: 100px;
+}
