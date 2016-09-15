@@ -12,34 +12,36 @@
     <script type="text/javascript" src="js/canvas.js"></script>
   </head>
 
-  <body>
+  <body onload='init("square");'>
     <div id="contents">
       <div id="canvas-wrapper">
         <canvas id="canvas-left" width="300" height="300">
           このブラウザではコンテンツを表示できません。
           別のブラウザで読み込みなおしてください。
         </canvas>
-        <canvas id="canvas-right" width="300" height="300"></canvas>
+        <!-- <canvas id="canvas-right" width="300" height="300"></canvas> -->
       </div>
 
-      <ul>
-        <li>
-          <p> 出発位置 (0 < x < 1) </p>
-          <input id="position" type="number"></input>
-        </li>
-        <li>
-          <p> 反射回数 </p>
-          <input id="reflection" type="number"></input>
-        </li>
-        <li>
-          <p> 出発角度 (0 < θ < 180) </p>
-          <input id="angle" type="number"></input>
-        </li>
-      </ul>
+      <div id="input-wrapper">
+        <ul>
+          <li>
+            <p> 出発位置 (0 < x < 1) </p>
+            <input id="position" type="number"></input>
+          </li>
+          <li>
+            <p> 反射回数 (x > 0)</p>
+            <input id="reflection" type="number"></input>
+          </li>
+          <li>
+            <p> 出発角度 (0 < θ < 180) </p>
+            <input id="angle" type="number"></input>
+          </li>
+        </ul>
+      </div>
 
       <div id="buttons">
-        <a href="#" class="button button-rounded button-flat"><i class="fa fa-pencil" aria-hidden="true"></i> 描画 </a>
-        <a href="#" class="button button-rounded button-flat"><i class="fa fa-trash-o" aria-hidden="true"></i> 消す </a>
+        <a href="javascript:draw()" class="button button-rounded button-flat"><i class="fa fa-pencil" aria-hidden="true"></i> 描画 </a>
+        <a href="javascript:init('default')" class="button button-rounded button-flat"><i class="fa fa-trash-o" aria-hidden="true"></i> 消す </a>
       </div>
 
     </div>
