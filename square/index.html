@@ -4,21 +4,22 @@
   <head>
     <meta charset="utf-8" />
     <title> ビリアード </title>
-    <link rel="stylesheet" type="text/css" href="default.css" />
-    <link rel="stylesheet" type="text/css" href="canvas.css" />
-    <script type="text/javascript" src="input.js"></script>
-    <script type="text/javascript" src="canvas.js"></script>
-    <!-- <link rel="stylesheet" type="text/css" href="calc.css" /> -->
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="css/canvas.css" />
+    <link rel="stylesheet" type="text/css" href="css/buttons.css" />
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+    <script type="text/javascript" src="js/input.js"></script>
+    <script type="text/javascript" src="js/canvas.js"></script>
   </head>
 
   <body>
     <div id="contents">
-      <div class="two-column">
-        <canvas id="canvasLeft" width="300" height="300">
+      <div id="canvas-wrapper">
+        <canvas id="canvas-left" width="300" height="300">
           このブラウザではコンテンツを表示できません。
           別のブラウザで読み込みなおしてください。
         </canvas>
-        <canvas id="canvasRight" width="300" height="300"></canvas>
+        <canvas id="canvas-right" width="300" height="300"></canvas>
       </div>
 
       <ul>
@@ -35,6 +36,13 @@
           <input id="angle" type="number"></input>
         </li>
       </ul>
+
+      <div id="buttons">
+        <a href="#" class="button button-rounded button-flat"><i class="fa fa-pencil" aria-hidden="true"></i> 描画 </a>
+        <a href="#" class="button button-rounded button-flat"><i class="fa fa-trash-o" aria-hidden="true"></i> 消す </a>
+      </div>
+
     </div>
+
   </body>
 </html>

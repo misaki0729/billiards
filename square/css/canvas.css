@@ -1,13 +1,13 @@
 ul {
   list-style: none;
+  text-align: center;
+  padding-left: 0;
+  margin-left: 100px;
 }
 
-ul li {
-  float:left;
-  display:box;
+li {
   display:inline-block;
   margin-top:0px;
-  padding:0;
   line-height:20px;
   margin-right: 80px;
 }
@@ -26,11 +26,20 @@ input[type="number"] {
     -moz-appearance:textfield;
 }
 
-#contents {
-  width: 800px;
-  margin: auto;
+#canvas-wrapper {
+  text-align: center;
 }
 
-#canvasLeft {
-  margin-right: 100px;
+#canvas-right {
+  margin-left: 130px;
+}
+
+#buttons {
+  margin-top: 30px;
+  position: absolute;
+  right: 120px;
+}
+
+#buttons a {
+  margin-left: 15px;
 }
