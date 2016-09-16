@@ -67,6 +67,43 @@ function drawRect() {
     window.alert("出発角度を入力し直してください。");
     return false;
   }
+
+  var count = 0;
+  var marginX = (canvas.canvas_width - canvas.width)/2;
+  var marginY = (canvas.canvas_height - canvas.height)/2;
+  var posX = marginX + start_position * canvas.width;
+  var posY = canvas.canvas_height - marginY;
+
+  var rad = angle/180 * Math.PI;
+  var moveX = Math.cos(rad);
+  var moveY = Math.sin(rad);
+  while(true) {
+    if (count > reflection) {
+      break;
+    }
+
+    posX += moveX;
+    posY -= moveY;
+    context_left.fillRect(posX, posY, 1, 1);
+
+    // X座標の壁判定
+    if (posX < marginX || posX > marginX + canvas.width) {
+      angle = 180 - angle;
+      rad = angle/180 * Math.PI;
+      moveX = Math.cos(rad);
+      moveY = Math.sin(rad);
+      count++;
+    }
+
+    // Y座標の壁判定
+    if (posY < marginY || posY > marginY + canvas.height) {
+      angle = 360 - angle;
+      rad = angle/180 * Math.PI;
+      moveX = Math.cos(rad);
+      moveY = Math.sin(rad);
+      count++;
+    }
+  }
 }
 
 function drawEllipse() {
