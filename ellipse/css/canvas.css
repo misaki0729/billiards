@@ -1,0 +1,45 @@
+ul {
+  list-style: none;
+  text-align: center;
+  padding-left: 0;
+  margin-left: 100px;
+}
+
+li {
+  display:inline-block;
+  margin-top:0px;
+  line-height:20px;
+  margin-right: 80px;
+}
+
+canvas {
+  border: solid 1px;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance:textfield;
+}
+
+#canvas-wrapper {
+  text-align: center;
+}
+
+#canvas-right {
+  margin-left: 130px;
+}
+
+#buttons {
+  margin-top: 30px;
+  position: absolute;
+  right: 120px;
+}
+
+#buttons a {
+  margin-left: 15px;
+}
