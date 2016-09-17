@@ -26,10 +26,20 @@ function init(shape) {
 
       switch (this.shape) {
         case "square":
+          canvas_right = null;
+          context_right = null;
           context_left.strokeRect(canvas.start, canvas.start, canvas.width, canvas.height);
           break;
         case "ellipse":
-          // TODO: 後で追加
+          canvas_right = document.getElementById("canvas-right");
+          context_right = canvas_right.getContext("2d");
+          context_left.beginPath();
+          context_left.arc(canvas.canvas_width/2, canvas.canvas_height/2, canvas.width/2, 0, Math.PI*2, false);
+          context_left.stroke();
+
+          context_right.beginPath();
+          context_right.arc(canvas.canvas_width/2, canvas.canvas_height/2, canvas.width/2, 0, Math.PI*2, false);
+          context_right.stroke();
           break;
         default:
           return;

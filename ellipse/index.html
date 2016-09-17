@@ -4,18 +4,42 @@
   <head>
     <meta charset="utf-8" />
     <title> ビリアード </title>
-    <link rel="stylesheet" type="text/css" href="default.css" />
-    <script type="text/javascript" src="input.js"></script>
-    <script type="text/javascript" src="canvas.js"></script>
-    <!-- <link rel="stylesheet" type="text/css" href="calc.css" /> -->
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="css/canvas.css" />
+    <link rel="stylesheet" type="text/css" href="css/buttons.css" />
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
+    <script type="text/javascript" src="js/canvas.js"></script>
   </head>
 
-  <body>
+  <body onload='init("ellipse");'>
     <div id="contents">
-      <canvas id="canvas" width="440" height="440">
-        このブラウザではコンテンツを表示できません。
-        別のブラウザで読み込みなおしてください。
-      </canvas>
+      <div id="canvas-wrapper">
+        <canvas id="canvas-left" width="300" height="300">
+          このブラウザではコンテンツを表示できません。
+          別のブラウザで読み込みなおしてください。
+        </canvas>
+        <canvas id="canvas-right" width="300" height="300"></canvas>
+      </div>
+
+      <div id="input-wrapper">
+        <ul>
+          <li>
+            <p> 反射回数 (x > 0)</p>
+            <input id="reflection" type="number"></input>
+          </li>
+          <li>
+            <p> 出発角度 (0 < θ < 180) </p>
+            <input id="angle" type="number"></input>
+          </li>
+        </ul>
+      </div>
+
+      <div id="buttons">
+        <a href="javascript:draw()" class="button button-rounded button-flat"><i class="fa fa-pencil" aria-hidden="true"></i> 描画 </a>
+        <a href="javascript:init('default')" class="button button-rounded button-flat"><i class="fa fa-trash-o" aria-hidden="true"></i> 消す </a>
+      </div>
+
     </div>
+
   </body>
 </html>
