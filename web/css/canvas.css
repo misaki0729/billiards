@@ -26,6 +26,15 @@ input[type="number"] {
     -moz-appearance:textfield;
 }
 
+#shape-buttons {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#shape-buttons a {
+  margin-left: 15px;
+}
+
 #canvas-wrapper {
   text-align: center;
 }
@@ -34,12 +43,12 @@ input[type="number"] {
   margin-left: 130px;
 }
 
-#buttons {
+#draw-buttons {
   margin-top: 30px;
   position: absolute;
   right: 120px;
 }
 
-#buttons a {
+#draw-buttons a {
   margin-left: 15px;
 }
