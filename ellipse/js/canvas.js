@@ -38,7 +38,9 @@ function init(shape) {
           context_left.stroke();
 
           context_right.beginPath();
+          context_right.strokeStyle = 'rgb(0, 0, 0)';
           context_right.arc(canvas.canvas_width/2, canvas.canvas_height/2, canvas.width/2, 0, Math.PI*2, false);
+          context_right.strkeStyle = 'rgb(0, 0, 0)';
           context_right.stroke();
           break;
         default:
@@ -117,7 +119,62 @@ function drawRect() {
 }
 
 function drawEllipse() {
-  // TODO: 後で記入
+  var reflection = Number(document.getElementById("reflection").value);
+  var angle = Number(document.getElementById("angle").value);
+
+  if (reflection <= 0) {
+    window.alert("反射回数を入力し直してください。");
+    return false;
+  }
+  if (angle <= 0 || angle >= 180) {
+    window.alert("出発角度を入力し直してください。");
+    return false;
+  }
+
+  var count = 0;
+  var startAngle = angle;
+  var marginX = (canvas.canvas_width - canvas.width)/2;
+  var marginY = (canvas.canvas_height - canvas.height)/2;
+  var posX = canvas.canvas_width/2;
+  var posY = canvas.canvas_height - marginY;
+  var rad = angle/180 * Math.PI;
+  var moveX = Math.cos(rad);
+  var moveY = Math.sin(rad);
+
+  context_right.beginPath();
+  context_right.strokeStyle = 'rgb(0, 0, 0)';
+  context_right.moveTo(canvas.canvas_width/2, canvas.canvas_height/2);
+  context_right.lineTo(posX, posY);
+  context_right.stroke();
+
+  while(true) {
+    if (count > reflection) {
+      break;
+    }
+
+    posX += moveX;
+    posY -= moveY;
+    context_left.fillRect(posX, posY, 1, 1);
+
+    var dist = Math.sqrt(Math.pow(posX - canvas.canvas_width/2, 2) + Math.pow(posY - canvas.canvas_height/2, 2));
+    if (dist >= canvas.width/2) {
+      context_right.beginPath();
+      context_right.strokeStyle = 'rgb(0, 0, 200)';
+      context_right.moveTo(canvas.canvas_width/2, canvas.canvas_height/2);
+      context_right.lineTo(posX, posY);
+      context_right.stroke();
+
+      angle = 2*startAngle + angle;
+      if (angle > 360) {
+        angle -= 360;
+      }
+
+      rad = angle/180 * Math.PI;
+      moveX = Math.cos(rad);
+      moveY = Math.sin(rad);
+      count++;
+    }
+  }
 }
 
 function clear() {
