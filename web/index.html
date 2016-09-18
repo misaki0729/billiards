@@ -11,7 +11,7 @@
     <script type="text/javascript" src="js/canvas.js"></script>
   </head>
 
-  <body onload='init("square");'>
+  <body onload='init("ellipse");'>
     <div id="contents">
       <div id="canvas-wrapper">
         <canvas id="canvas-left" width="300" height="300">
@@ -22,7 +22,11 @@
       </div>
 
       <div id="input-wrapper">
-        <ul>
+        <ul id="input-ul">
+          <li id="position-li">
+            <p> 出発位置 (0 < x < 1) </p>
+            <input id="position" type="number"></input>
+          </li>
           <li>
             <p> 反射回数 (x > 0)</p>
             <input id="reflection" type="number"></input>

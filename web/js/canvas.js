@@ -31,6 +31,24 @@ function init(shape) {
             canvas_right.parentNode.removeChild(canvas_right);
           }
 
+          var position_li = document.getElementById("position-li");
+          if (position_li == null) {
+            position_li = document.createElement("li");
+            position_li.setAttribute("id", "position-li");
+
+            var position_li_p = document.createElement("p");
+            position_li_p.appendChild(document.createTextNode("出発位置 (0 < x < 1)"));
+            position_li.appendChild(position_li_p);
+
+            var position_li_input = document.createElement("input");
+            position_li_input.setAttribute("id", "position");
+            position_li_input.setAttribute("type", "number");
+            position_li.appendChild(position_li_input);
+
+            var input_ul = document.getElementById("input-ul")
+            input_ul.insertBefore(position_li, input_ul.firstElement);
+          }
+
           canvas_right = null;
           context_right = null;
           context_left.strokeRect(canvas.start, canvas.start, canvas.width, canvas.height);
@@ -43,6 +61,11 @@ function init(shape) {
             canvas_right.setAttribute("width", canvas.canvas_width);
             canvas_right.setAttribute("height", canvas.canvas_height);
             document.getElementById("canvas-wrapper").appendChild(canvas_right);
+          }
+
+          var position_li = document.getElementById("position-li");
+          if (position_li != null) {
+            position_li.parentNode.removeChild(position_li);
           }
 
           canvas_right = document.getElementById("canvas-right");
