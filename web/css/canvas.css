@@ -33,6 +33,7 @@ input[type="number"] {
 
 #shape-buttons a {
   margin-left: 15px;
+  width: 50px;
 }
 
 #canvas-wrapper {
