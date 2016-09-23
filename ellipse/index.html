@@ -11,18 +11,22 @@
     <script type="text/javascript" src="js/canvas.js"></script>
   </head>
 
-  <body onload='init("circle");'>
+  <body onload='init("ellipse");'>
     <div id="contents">
       <div id="canvas-wrapper">
-        <canvas id="canvas-left" width="300" height="300">
+        <canvas id="canvas-left" width="340" height="300">
           このブラウザではコンテンツを表示できません。
           別のブラウザで読み込みなおしてください。
         </canvas>
-        <canvas id="canvas-right" width="300" height="300"></canvas>
+        <!-- <canvas id="canvas-right" width="300" height="300"></canvas> -->
       </div>
 
       <div id="input-wrapper">
         <ul>
+          <li>
+            <p> 出発位置 (0 < x < 1)</p>
+            <input id="position" type="number"></input>
+          </li>
           <li>
             <p> 反射回数 (x > 0)</p>
             <input id="reflection" type="number"></input>
