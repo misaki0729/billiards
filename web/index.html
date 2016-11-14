@@ -9,21 +9,23 @@
     <link rel="stylesheet" type="text/css" href="css/buttons.css" />
     <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css" />
     <script type="text/javascript" src="js/canvas.js"></script>
+    <script type="text/javascript" src="js/bignumber.js"></script>
   </head>
 
-  <body onload='init("ellipse");'>
+  <body onload='init("circle");'>
     <div id="contents">
       <div id="shape-buttons">
         <a href="javascript:init('square')" class="button button-rounded button-flat"> 正方形 </a>
-        <a href="javascript:init('ellipse')" class="button button-rounded button-flat"> 円 </a>
+        <a href="javascript:init('circle')" class="button button-rounded button-flat"> 円 </a>
+        <a href="javascript:init('ellipse')" class="button button-rounded button-flat"> 楕円 </a>
       </div>
 
       <div id="canvas-wrapper">
-        <canvas id="canvas-left" width="300" height="300">
+        <canvas id="canvas-left" width="320" height="320">
           このブラウザではコンテンツを表示できません。
           別のブラウザで読み込みなおしてください。
         </canvas>
-        <canvas id="canvas-right" width="300" height="300"></canvas>
+        <canvas id="canvas-right" width="320" height="320"></canvas>
       </div>
 
       <div id="input-wrapper">

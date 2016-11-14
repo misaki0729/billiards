@@ -1,6 +1,6 @@
 var canvas = {
-  canvas_width: 340,
-  canvas_height: 300,
+  canvas_width: 320,
+  canvas_height: 320,
   width: 300,
   height: 260,
   start: 340 / 15,
