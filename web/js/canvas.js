@@ -199,6 +199,8 @@ function drawRect() {
 }
 
 function drawCircle() {
+  BigNumber.config({ ERRORS: false });
+
   var reflection = Number(document.getElementById("reflection").value);
   var angle = Number(document.getElementById("angle").value);
 
@@ -218,8 +220,9 @@ function drawCircle() {
   var posX = canvas.canvas_width/2;
   var posY = canvas.canvas_height - marginY;
   var rad = angle/180 * Math.PI;
-  var moveX = Math.cos(rad);
-  var moveY = Math.sin(rad);
+  var r = new BigNumber(canvas.width).div(2); // 半径
+  var startX = new BigNumber(canvas.canvas_width).div(2);
+  var startY = new BigNumber(canvas.canvas_height).div(2).plus(r);
 
   context_right.beginPath();
   context_right.strokeStyle = 'rgb(0, 0, 0)';
@@ -232,28 +235,127 @@ function drawCircle() {
       break;
     }
 
-    posX += moveX;
-    posY -= moveY;
-    context_left.fillRect(posX, posY, 1, 1);
+    var angle = new BigNumber(rad).times(180).div(Math.PI);
+    if (angle % 90 == 0) {
+      // 角度が90度, 270度の場合にはtan()で計算できないため場合分け
+      posX = new BigNumber(startX).minus(marginX).minus(r);
 
-    var dist = Math.sqrt(Math.pow(posX - canvas.canvas_width/2, 2) + Math.pow(posY - canvas.canvas_height/2, 2));
-    if (dist >= canvas.width/2) {
-      context_right.beginPath();
-      context_right.strokeStyle = 'rgb(0, 0, 200)';
-      context_right.moveTo(canvas.canvas_width/2, canvas.canvas_height/2);
-      context_right.lineTo(posX, posY);
-      context_right.stroke();
-
-      angle = 2*startAngle + angle;
-      if (angle > 360) {
-        angle -= 360;
+      // 方程式を解く
+      var ans1 = new BigNumber(Math.abs(r, 2)).minus(Math.abs(posX, 2)).squareRoot();
+      var ans2 = new BigNumber(ans1).times(-1);
+      if (angle % 270 == 0) {
+        if (ans1.gt(ans2)) {
+          posY = ans2;
+        } else {
+          posY = ans1;
+        }
+      } else {
+        if (ans1.gt(ans2)) {
+          posY = ans1;
+        } else {
+          posY = ans2;
+        }
       }
 
-      rad = angle/180 * Math.PI;
-      moveX = Math.cos(rad);
-      moveY = Math.sin(rad);
-      count++;
+      if (count == 0) {
+        posY = new BigNumber(r);
+      }
+
+      posX = new BigNumber(posX).plus(r).plus(marginX);
+      posY = new BigNumber(r).minus(posY).plus(marginY);
+    } else {
+      // それ以外
+      var x1 = new BigNumber(startX).minus(marginX).minus(r);
+      var y1 = new BigNumber(r).minus(startY).plus(marginY);
+
+      // 楕円の方程式と1点を通る直線の方程式からxを解く
+      var m = new BigNumber(Math.tan(rad));
+      var alpha = new BigNumber(1).plus(Math.pow(m, 2));
+      var beta = new BigNumber(-2).times(new BigNumber(Math.pow(m, 2)).times(x1).minus(new BigNumber(m).times(y1)));
+      var ganma = new BigNumber(Math.pow(m, 2)).times(Math.pow(x1, 2)).minus(new BigNumber(2).times(m).times(x1).times(y1)).plus(Math.pow(y1, 2)).minus(Math.pow(r, 2));
+
+      var sqrt = new BigNumber(Math.pow(beta, 2)).minus(new BigNumber(4).times(alpha).times(ganma)).squareRoot();
+      // 導き出したx座標(2次方程式なので答えは2つ), 解の公式を使ってるだけ
+      var ans1 = new BigNumber(-1).times(beta).plus(sqrt).div(new BigNumber(2).times(alpha));
+      var ans2 = new BigNumber(-1).times(beta).minus(sqrt).div(new BigNumber(2).times(alpha));
+
+      // 傾きが右方向の場合
+      if (Math.cos(rad) > 0) {
+        if (ans1.gt(ans2)) {
+          posX = ans1;
+        } else {
+          posX = ans2;
+        }
+      } else {
+        if (ans2.gt(ans1)) {
+          posX = ans1;
+        } else {
+          posX = ans2;
+        }
+      }
+      posY = new BigNumber(m).times(new BigNumber(posX).minus(x1)).plus(y1);
+
+      // posX, posYをcanvas内の座標に戻す
+      posX = new BigNumber(posX).plus(r).plus(marginX);
+      posY = new BigNumber(r).minus(posY).plus(marginY);
     }
+    context_left.beginPath();
+    context_left.moveTo(startX, startY);
+    context_left.lineTo(posX, posY);
+    context_left.stroke();
+    context_right.beginPath();
+    context_right.strokeStyle = 'rgb(0, 0, 200)';
+    context_right.moveTo(canvas.canvas_width/2, canvas.canvas_height/2);
+    context_right.lineTo(posX, posY);
+    context_right.stroke();
+
+    // ここから先は入射角, 反射角の計算
+    var x0 = (posX - marginX) - r;
+    var y0 = r - (posY - marginY);
+    var x1 = 0; // 法線を引いたときのx座標(y座標の値は0)
+    var x2 = (startX - marginX) - r;
+    var y2 = r - (startY - marginY);
+
+    // 3点から三角形のそれぞれの辺の長さを導く
+    var dist_contact_to_x1 = Math.sqrt(Math.pow(x0 - x1, 2) + Math.pow(y0 - 0, 2));
+    var dist_start_to_contact = Math.sqrt(Math.pow(x2 - x0, 2) + Math.pow(y2 - y0, 2)); // 出発位置から接点への距離
+    var dist_start_to_x1 = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - 0, 2));
+
+    // 余弦定理を使って入射角の計算
+    var incident_angle = Math.acos((Math.pow(dist_contact_to_x1, 2) + Math.pow(dist_start_to_contact, 2) - Math.pow(dist_start_to_x1, 2)) / (2 * dist_contact_to_x1 * dist_start_to_contact));
+    // 入射線が水平線から何度かを計算
+    var incident_rad = Math.atan2(startY - posY, startX - posX);
+
+    // 反射する方向を導く
+    angle1 = incident_rad*180/Math.PI;
+    angle2 = Math.atan2(new BigNumber(canvas.canvas_height/2).minus(posY), new BigNumber(x1).plus(marginX).plus(r).minus(posX))*180/Math.PI;
+    if ((angle1 < 0 && angle2 >= 0) || (angle1 >= 0 && angle2 < 0)) {
+      if (Math.cos(rad) > 0) {
+        if (angle2 < 0) {
+          rad = (360 - incident_rad*180/Math.PI - incident_angle*180/Math.PI*2)/180*Math.PI;
+        } else {
+          rad = (360 - incident_rad*180/Math.PI + incident_angle*180/Math.PI*2)/180*Math.PI;
+        }
+      } else {
+        if (angle2 < 0) {
+          rad = (360 - incident_rad*180/Math.PI + incident_angle*180/Math.PI*2)/180*Math.PI;
+        } else {
+          rad = (360 - incident_rad*180/Math.PI - incident_angle*180/Math.PI*2)/180*Math.PI;
+        }
+      }
+    } else {
+      if (incident_rad*180/Math.PI > Math.atan2(new BigNumber(canvas.canvas_height/2).minus(posY), new BigNumber(x1).plus(marginX).plus(r).minus(posX))*180/Math.PI) {
+        rad = (360 - incident_rad*180/Math.PI + incident_angle*180/Math.PI*2)/180*Math.PI;
+      } else {
+        rad = (360 - incident_rad*180/Math.PI - incident_angle*180/Math.PI*2)/180*Math.PI;
+      }
+    }
+    rad = new BigNumber(rad).round(5);
+
+    startX = new BigNumber(posX);
+    startY = new BigNumber(posY);
+
+    count++;
   }
 }
 
