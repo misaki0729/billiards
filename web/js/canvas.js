@@ -108,13 +108,13 @@ function init(shape) {
           canvas_right = null;
           context_right = null;
           context_left.beginPath();
-          context_left.ellipse(canvas.canvas_width/2, canvas.canvas_height/2, canvas.ellipse_width/2, 90, 0, 0, Math.PI*2);
+          context_left.ellipse(canvas.canvas_width/2, canvas.canvas_height/2, canvas.ellipse_width/2, 120, 0, 0, Math.PI*2);
           context_left.stroke();
 
           // 焦点
           var marginX = (canvas.canvas_width - canvas.ellipse_width)/2;
           context_left.beginPath();
-          var f = Math.sqrt(Math.pow(canvas.ellipse_width/2, 2) - Math.pow(90, 2));
+          var f = Math.sqrt(Math.pow(canvas.ellipse_width/2, 2) - Math.pow(120, 2));
           context_left.ellipse(canvas.canvas_width/2 + f, canvas.canvas_height/2, 2, 2, 0, 0, Math.PI*2);
           context_left.ellipse(canvas.canvas_width/2 - f, canvas.canvas_height/2, 2, 2, 0, 0, Math.PI*2);
           context_left.fillStyle = 'rgb(200, 0, 0)';
@@ -344,7 +344,7 @@ function drawCircle() {
         }
       }
     } else {
-      if (incident_rad*180/Math.PI > Math.atan2(new BigNumber(canvas.canvas_height/2).minus(posY), new BigNumber(x1).plus(marginX).plus(r).minus(posX))*180/Math.PI) {
+      if (angle1 > angle2) {
         rad = (360 - incident_rad*180/Math.PI + incident_angle*180/Math.PI*2)/180*Math.PI;
       } else {
         rad = (360 - incident_rad*180/Math.PI - incident_angle*180/Math.PI*2)/180*Math.PI;
@@ -381,7 +381,7 @@ function drawEllipse() {
 
   var count = 0;
   var marginX = new BigNumber(canvas.canvas_width).minus(canvas.ellipse_width).div(2);
-  var marginY = new BigNumber(canvas.canvas_height).div(2).minus(new BigNumber(90));
+  var marginY = new BigNumber(canvas.canvas_height).div(2).minus(new BigNumber(120));
   var posX = new BigNumber(marginX).plus(new BigNumber(start_position).times(canvas.ellipse_width));
   var posY = new BigNumber(canvas.canvas_height).div(2);
   var rad = new BigNumber(angle).div(180).times(Math.PI);
@@ -389,8 +389,8 @@ function drawEllipse() {
   var moveY = Math.sin(rad);
 
   var a = new BigNumber(canvas.ellipse_width).div(2); // 長径
-  var b = new BigNumber(90); // 短径
-  var f = Math.sqrt(Math.pow(canvas.ellipse_width/2, 2) - Math.pow(90, 2)); // 焦点
+  var b = new BigNumber(120); // 短径
+  var f = Math.sqrt(Math.pow(canvas.ellipse_width/2, 2) - Math.pow(120, 2)); // 焦点
 
   var startX = posX;
   var startY = posY;
@@ -509,16 +509,42 @@ function drawEllipse() {
       reflect_flag = true;
     }
 
-    if (reflect_flag) {
-      rad = (360 - incident_rad*180/Math.PI + incident_angle*180/Math.PI*2)/180*Math.PI;
+    // if (reflect_flag) {
+    //   rad = (360 - incident_rad*180/Math.PI + incident_angle*180/Math.PI*2)/180*Math.PI;
+    // } else {
+    //   // 反射する方向を導く
+    //   if (incident_rad*180/Math.PI > Math.atan2(new BigNumber(canvas.canvas_height/2).minus(posY), new BigNumber(x1).plus(marginX).plus(a).minus(posX))*180/Math.PI) {
+    //     rad = (360 - incident_rad*180/Math.PI + incident_angle*180/Math.PI*2)/180*Math.PI;
+    //   } else {
+    //     rad = (360 - incident_rad*180/Math.PI - incident_angle*180/Math.PI*2)/180*Math.PI;
+    //   }
+    // }
+
+    // 反射する方向を導く
+    angle1 = incident_rad*180/Math.PI;
+    angle2 = Math.atan2(new BigNumber(canvas.canvas_height/2).minus(posY), new BigNumber(x1).plus(marginX).plus(a).minus(posX))*180/Math.PI;
+    if ((angle1 < 0 && angle2 >= 0) || (angle1 >= 0 && angle2 < 0)) {
+      if (Math.cos(rad) > 0) {
+        if (angle2 < 0) {
+          rad = (360 - incident_rad*180/Math.PI - incident_angle*180/Math.PI*2)/180*Math.PI;
+        } else {
+          rad = (360 - incident_rad*180/Math.PI + incident_angle*180/Math.PI*2)/180*Math.PI;
+        }
+      } else {
+        if (angle2 < 0) {
+          rad = (360 - incident_rad*180/Math.PI + incident_angle*180/Math.PI*2)/180*Math.PI;
+        } else {
+          rad = (360 - incident_rad*180/Math.PI - incident_angle*180/Math.PI*2)/180*Math.PI;
+        }
+      }
     } else {
-      // 反射する方向を導く
-      if (incident_rad*180/Math.PI > Math.atan2(new BigNumber(canvas.canvas_height/2).minus(posY), new BigNumber(x1).plus(marginX).plus(a).minus(posX))*180/Math.PI) {
+      if (angle1 > angle2) {
         rad = (360 - incident_rad*180/Math.PI + incident_angle*180/Math.PI*2)/180*Math.PI;
       } else {
         rad = (360 - incident_rad*180/Math.PI - incident_angle*180/Math.PI*2)/180*Math.PI;
       }
     }
+    rad = new BigNumber(rad).round(5);
 
     startX = new BigNumber(posX);
     startY = new BigNumber(posY);
