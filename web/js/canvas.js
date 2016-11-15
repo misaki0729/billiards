@@ -509,17 +509,6 @@ function drawEllipse() {
       reflect_flag = true;
     }
 
-    // if (reflect_flag) {
-    //   rad = (360 - incident_rad*180/Math.PI + incident_angle*180/Math.PI*2)/180*Math.PI;
-    // } else {
-    //   // 反射する方向を導く
-    //   if (incident_rad*180/Math.PI > Math.atan2(new BigNumber(canvas.canvas_height/2).minus(posY), new BigNumber(x1).plus(marginX).plus(a).minus(posX))*180/Math.PI) {
-    //     rad = (360 - incident_rad*180/Math.PI + incident_angle*180/Math.PI*2)/180*Math.PI;
-    //   } else {
-    //     rad = (360 - incident_rad*180/Math.PI - incident_angle*180/Math.PI*2)/180*Math.PI;
-    //   }
-    // }
-
     // 反射する方向を導く
     angle1 = incident_rad*180/Math.PI;
     angle2 = Math.atan2(new BigNumber(canvas.canvas_height/2).minus(posY), new BigNumber(x1).plus(marginX).plus(a).minus(posX))*180/Math.PI;
