@@ -108,15 +108,19 @@ function init(shape) {
           canvas_right = null;
           context_right = null;
           context_left.beginPath();
-          context_left.ellipse(canvas.canvas_width/2, canvas.canvas_height/2, canvas.ellipse_width/2, 120, 0, 0, Math.PI*2);
+          context_left.save();
+          context_left.translate(0, canvas.canvas_height*0.1);
+          context_left.scale(1, 0.8);
+          context_left.arc(canvas.canvas_width/2, canvas.canvas_height/2, canvas.ellipse_width/2, 0, Math.PI*2, false);
           context_left.stroke();
+          context_left.restore();
 
           // 焦点
           var marginX = (canvas.canvas_width - canvas.ellipse_width)/2;
           context_left.beginPath();
           var f = Math.sqrt(Math.pow(canvas.ellipse_width/2, 2) - Math.pow(120, 2));
-          context_left.ellipse(canvas.canvas_width/2 + f, canvas.canvas_height/2, 2, 2, 0, 0, Math.PI*2);
-          context_left.ellipse(canvas.canvas_width/2 - f, canvas.canvas_height/2, 2, 2, 0, 0, Math.PI*2);
+          context_left.arc(canvas.canvas_width/2 + f, canvas.canvas_height/2, 2, 0, Math.PI*2, false);
+          context_left.arc(canvas.canvas_width/2 - f, canvas.canvas_height/2, 2, 0, Math.PI*2, false);
           context_left.fillStyle = 'rgb(200, 0, 0)';
           context_left.fill();
           break;
