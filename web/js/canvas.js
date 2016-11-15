@@ -93,7 +93,7 @@ function init(shape) {
             position_li.setAttribute("id", "position-li");
 
             var position_li_p = document.createElement("p");
-            position_li_p.appendChild(document.createTextNode("出発位置 (0 < x < 1)"));
+            position_li_p.appendChild(document.createTextNode("出発位置 (0 < x < 1, f = 0.2, 0.8)"));
             position_li.appendChild(position_li_p);
 
             var position_li_input = document.createElement("input");
