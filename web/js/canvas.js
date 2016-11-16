@@ -180,6 +180,7 @@ function drawRect() {
 
     posX += moveX;
     posY -= moveY;
+    context_left.fillStyle = 'rgb(0, 0, 0)';
     context_left.fillRect(posX, posY, 1, 1);
 
     // X座標の壁判定
